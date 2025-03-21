@@ -107,7 +107,13 @@ La página estática de "En construcción" está disponible en:
   </html>
   ```
 
+El frontend de la aplicación también está desplegado en GitHub Pages:
+- **URL**: [https://paulmclennon.github.io/taskmanager/](https://paulmclennon.github.io/taskmanager/)
+
 ---
+
+## Documentación
+- El anteproyecto del proyecto está disponible en [Releases](https://github.com/PaulMcLennon/taskmanager/releases).
 
 ## Estructura del Proyecto
 ```
@@ -127,6 +133,11 @@ taskmanager/
 │   │       └── static/
 │   │           └── index.html
 │   └── test/
+|
+|__ docs/                     <-- Carpeta para GitHub Pages
+|   ├── index.html            <-- Página estática del frontend
+|   └── Anteproyecto.pdf      <-- Archivo PDF del anteproyecto
+|
 └── pom.xml
 ```
 
