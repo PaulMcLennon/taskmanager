@@ -31,3 +31,5 @@ build/
 
 ### VS Code ###
 .vscode/
+
+/helm/charts/     # Dependencias de Helm (si las hay)

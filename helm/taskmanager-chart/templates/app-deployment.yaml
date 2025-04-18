@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: taskmanager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: taskmanager
+  template:
+    metadata:
+      labels:
+        app: taskmanager
+    spec:
+      containers:
+      - name: app
+        image: {{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}
+        imagePullPolicy: {{ .Values.app.image.pullPolicy }}
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:mysql://mysql-service:{{ .Values.mysql.service.port }}/{{ .Values.mysql.database }}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
+        - name: SPRING_DATASOURCE_USERNAME
+          value: {{ .Values.mysql.username | quote }}
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: {{ .Values.mysql.password | quote }}
+        ports:
+        - containerPort: 8080
+        resources:
+{{ toYaml .Values.app.resources | indent 10 }}
