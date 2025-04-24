@@ -6,7 +6,7 @@ metadata:
 spec:
   type: {{ .Values.backend.service.type }}
   selector:
-    app: taskbackend
+    app: backend
   ports:
     - protocol: TCP
       port: {{ .Values.backend.service.port }}

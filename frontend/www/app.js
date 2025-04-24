@@ -1,5 +1,5 @@
 // Conexión a tu backend en Kubernetes (cambia la URL)
-const API_URL = "http://[TU_IP_BACKEND]:8080/tasks";
+const API_URL = "http://34.175.108.172:8080/tasks";
 
 // Elementos del DOM
 const taskInput = document.getElementById("taskInput");

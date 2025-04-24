@@ -1,7 +1,7 @@
 # This file contains the default values for the TaskManager Helm chart.
    
 # Default values for taskmanager-chart.
-namespace: default
+namespace: ""
 
 # MySQL configuration
 mysql:
@@ -27,7 +27,7 @@ backend:
   service:
     port: 80
     targetPort: 8080
-    type: ClusterIP
+    type: LoadBalancer
   resources:
     requests:
       cpu: 500m
