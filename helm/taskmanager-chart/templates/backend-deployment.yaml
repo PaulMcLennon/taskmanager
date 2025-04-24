@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: taskbackend
+  name: backend
   namespace: {{ .Values.namespace }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      backend: taskbackend
+      app: backend
   template:
     metadata:
       labels:
-        backend: taskbackend
+        app: backend
     spec:
       containers:
       - name: backend
@@ -21,10 +21,20 @@ spec:
         - name: SPRING_DATASOURCE_URL
           value: "jdbc:mysql://mysql-service:{{ .Values.mysql.service.port }}/{{ .Values.mysql.database }}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
         - name: SPRING_DATASOURCE_USERNAME
-          value: {{ .Values.mysql.username | quote }}
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secrets
+              key: mysql-username
         - name: SPRING_DATASOURCE_PASSWORD
-          value: {{ .Values.mysql.password | quote }}
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secrets
+              key: mysql-password
         ports:
         - containerPort: 8080
         resources:
 {{ toYaml .Values.backend.resources | indent 10 }}
+      initContainers:
+        - name: wait-for-mysql
+          image: busybox
+          command: ['sh', '-c', 'until nc -z mysql-service {{ .Values.mysql.service.port }}; do echo waiting for mysql; sleep 2; done']

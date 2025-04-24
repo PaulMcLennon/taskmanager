@@ -22,7 +22,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: mysql-secrets
-              key: root-password
+              key: mysql-root-password
         - name: MYSQL_DATABASE
           value: {{ .Values.mysql.database | quote }}
         - name: MYSQL_USER
@@ -31,7 +31,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: mysql-secrets
-              key: user-password
+              key: mysql-password
         ports:
         - containerPort: {{ .Values.mysql.service.port }}
         volumeMounts:

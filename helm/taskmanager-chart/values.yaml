@@ -1,7 +1,7 @@
 # This file contains the default values for the TaskManager Helm chart.
    
 # Default values for taskmanager-chart.
-namespace: taskmanager
+namespace: default
 
 # MySQL configuration
 mysql:
@@ -11,10 +11,8 @@ mysql:
     pullPolicy: IfNotPresent
   config:
     maxConnections: 200
-  rootPassword: root123
   database: taskmanager
   username: taskuser
-  password: task123
   storageSize: 10Gi
   service:
     port: 3306
