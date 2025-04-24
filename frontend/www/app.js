@@ -1,52 +1,82 @@
-// Conexión a tu backend en Kubernetes (cambia la URL)
-const API_URL = "http://34.175.108.172:8080/tasks";
+const API_URL = "http://34.175.108.172/tasks";
 
-// Elementos del DOM
+
+// DOM Elements
 const taskInput = document.getElementById("taskInput");
 const addButton = document.getElementById("addButton");
 const taskList = document.getElementById("taskList");
 
-// Cargar tareas al iniciar
+// Load tasks on startup
 document.addEventListener("DOMContentLoaded", loadTasks);
 
-// Función para cargar tareas desde el backend
 async function loadTasks() {
     try {
         const response = await fetch(API_URL);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const tasks = await response.json();
         taskList.innerHTML = "";
         tasks.forEach(task => addTaskToDOM(task));
     } catch (error) {
-        console.error("Error cargando tareas:", error);
+        console.error("Error loading tasks:", error);
+        taskList.innerHTML = `<div class="error">Error loading tasks. Check console.</div>`;
     }
 }
 
-// Función para agregar una tarea
 addButton.addEventListener("click", async () => {
-    const description = taskInput.value.trim();
-    if (description) {
+    const title = taskInput.value.trim();  // Changed from description to title
+    if (title) {
         try {
             const response = await fetch(API_URL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ description, completed: false })
+                body: JSON.stringify({ 
+                    title,          // Changed to match backend expectation
+                    completed: false 
+                })
             });
+            
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            
             const newTask = await response.json();
             addTaskToDOM(newTask);
             taskInput.value = "";
         } catch (error) {
-            console.error("Error agregando tarea:", error);
+            console.error("Error adding task:", error);
+            alert("Failed to add task. See console for details.");
         }
     }
 });
 
-// Mostrar tareas en el DOM
 function addTaskToDOM(task) {
     const taskElement = document.createElement("div");
     taskElement.className = "task";
     taskElement.innerHTML = `
-        <input type="checkbox" ${task.completed ? "checked" : ""}>
-        <span>${task.description}</span>
+        <input type="checkbox" ${task.completed ? "checked" : ""} 
+               onchange="toggleTask(${task.id}, this.checked)">
+        <span>${task.title}</span>  <!-- Changed from description to title -->
+        <button onclick="deleteTask(${task.id})">Delete</button>
     `;
     taskList.appendChild(taskElement);
+}
+
+// Additional functions for full CRUD
+async function toggleTask(id, completed) {
+    try {
+        await fetch(`${API_URL}/${id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ completed })
+        });
+    } catch (error) {
+        console.error("Error updating task:", error);
+    }
+}
+
+async function deleteTask(id) {
+    try {
+        await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+        loadTasks(); // Refresh the list
+    } catch (error) {
+        console.error("Error deleting task:", error);
+    }
 }
