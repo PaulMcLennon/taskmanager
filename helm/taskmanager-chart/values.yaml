@@ -22,7 +22,7 @@ mysql:
 backend:
   image:
     repository: jmendezpod/taskbackend
-    tag: 1.1.1
+    tag: 1.2.0
     pullPolicy: IfNotPresent
   service:
     port: 80
