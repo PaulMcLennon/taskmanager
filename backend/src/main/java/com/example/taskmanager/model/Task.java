@@ -1,9 +1,6 @@
 package com.example.taskmanager.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Task {
@@ -12,8 +9,12 @@ public class Task {
     private Long id;
     private String title;
     private boolean completed;
-
-    // Getters y Setters (genera estos métodos en tu IDE)
+    
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+    
+    // Getters y Setters (incluyendo el nuevo para User)
     public Long getId() {
         return id;
     }
@@ -36,5 +37,13 @@ public class Task {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

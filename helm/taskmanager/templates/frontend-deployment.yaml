@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: jmendezpod/frontend:1.0.6
+        image: jmendezpod/frontend:1.3.0
         ports:
         - containerPort: 80
 ---

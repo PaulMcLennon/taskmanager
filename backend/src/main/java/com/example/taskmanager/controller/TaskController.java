@@ -1,55 +1,45 @@
 package com.example.taskmanager.controller;
 
+import com.example.taskmanager.model.Task;
+import com.example.taskmanager.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
-import com.example.taskmanager.model.Task;
-import com.example.taskmanager.repository.TaskRepository;
 
 @RestController
-@RequestMapping("/tasks")
+@RequestMapping("/api/tasks")
 public class TaskController {
 
-    @Autowired
-    private TaskRepository taskRepository;
+    private final TaskService taskService;
 
-    // CREATE
+    @Autowired
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
+    }
+
     @PostMapping
     public Task createTask(@RequestBody Task task) {
-        return taskRepository.save(task);
+        return taskService.createTask(task);
     }
 
-    // READ ALL 
     @GetMapping
     public List<Task> getAllTasks() {
-        return taskRepository.findAll();
+        return taskService.getAllTasksForCurrentUser();
     }
 
-    // READ BY ID
     @GetMapping("/{id}")
     public Task getTaskById(@PathVariable Long id) {
-        return taskRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Task not found with id: " + id));
+        return taskService.getTaskForCurrentUser(id);
     }
 
-    // UPDATE 
     @PutMapping("/{id}")
     public Task updateTask(@PathVariable Long id, @RequestBody Task taskDetails) {
-        Task task = taskRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Task not found with id: " + id));
-        
-        task.setTitle(taskDetails.getTitle());
-        task.setCompleted(taskDetails.isCompleted());
-        
-        return taskRepository.save(task);
+        return taskService.updateTask(id, taskDetails);
     }
 
-    // DELETE   
     @DeleteMapping("/{id}")
     public void deleteTask(@PathVariable Long id) {
-        Task task = taskRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Task not found with id: " + id));
-        
-        taskRepository.delete(task);
+        taskService.deleteTask(id);
     }
 }
