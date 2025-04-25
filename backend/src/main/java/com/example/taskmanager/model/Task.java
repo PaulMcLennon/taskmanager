@@ -1,4 +1,4 @@
-package com.example.taskmanager;
+package com.example.taskmanager.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

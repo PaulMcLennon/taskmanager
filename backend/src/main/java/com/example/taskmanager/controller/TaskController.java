@@ -1,8 +1,10 @@
-package com.example.taskmanager;
+package com.example.taskmanager.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import com.example.taskmanager.model.Task;
+import com.example.taskmanager.repository.TaskRepository;
 
 @RestController
 @RequestMapping("/tasks")
