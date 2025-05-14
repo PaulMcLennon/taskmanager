@@ -7,7 +7,7 @@ Esta una aplicación de gestión de tareas para el proyecto de fin de FP de desa
 
 ### 1. Bájate el apk y instálala en android
 
-frontend/apks/taskmanager8.0.1.apk
+[Descargar APK](./frontend/apks/taskmanager8.0.1.apk)
 
 ### 2. Chequéala en la web
 
