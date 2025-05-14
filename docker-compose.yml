@@ -5,8 +5,8 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    image: jmendezpod/backend:latest
+    image: jmendezpod/backend:8.0.0
 
   frontend:
     build: ./frontend
-    image: jmendezpod/frontend:latest
+    image: jmendezpod/frontend:8.0.0

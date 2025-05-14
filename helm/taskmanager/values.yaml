@@ -22,7 +22,7 @@ mysql:
 backend:
   image:
     repository: jmendezpod/backend
-    tag: latest
+    tag: 8.0.0
     imagePullPolicy: Always
   service:
     port: 80
@@ -35,3 +35,22 @@ backend:
     limits:
       cpu: 1000m
       memory: 1024Mi
+
+# Frontend configuration
+frontend:
+  image:
+    repository: jmendezpod/frontend
+    tag: 8.0.0
+    pullPolicy: Always
+  service:
+    port: 80
+    targetPort: 80
+    type: LoadBalancer
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+  replicaCount: 1
