@@ -32,7 +32,7 @@ fun WebViewComposable() {
         factory = { context ->
             WebView(context).apply {
                 settings.javaScriptEnabled = true
-                loadUrl("http://34.175.197.213/")
+                loadUrl("http://34.175.30.141/")
             }
         },
         modifier = Modifier.fillMaxSize()
