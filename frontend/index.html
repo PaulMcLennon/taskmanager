@@ -9,6 +9,33 @@
         #addButton { padding: 10px 20px; }
         #taskList { margin-top: 20px; }
         .task { display: flex; margin: 10px 0; }
+        .task-text {
+        transition: all 0.3s ease;
+        }
+        .task-text.completed {
+            text-decoration: line-through;
+            opacity: 0.7;
+            color: #888;
+        }
+        .task {
+        display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            margin-bottom: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .task:hover {
+            background-color: #f0f0f0;
+        }
+
+        .task-checkbox {
+            cursor: pointer;
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body>

@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const taskList = document.getElementById("taskList");
 
     // Verificación de elementos
+    // Asegúrate de que los elementos existen antes de continuar
     if (!taskInput || !addButton || !taskList) {
         console.error("Error: Elementos del DOM no encontrados");
         return;
@@ -44,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
             taskElement.innerHTML = `
                 <input type="checkbox" ${task.completed ? "checked" : ""} 
                     data-id="${task.id}" class="task-checkbox">
-                <span>${task.title}</span>
+                <span class="task-text ${task.completed ? "completed" : ""}">${task.title}</span>
                 <button data-id="${task.id}" class="delete-btn">Delete</button>
             `;
             taskList.appendChild(taskElement);
@@ -91,17 +92,34 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Actualizar tarea
+    // Actualizar tarea asdasdasdasd
     async function toggleTask(id, completed) {
         try {
-            await fetch(`${API_URL}/${id}`, {
-                method: "PATCH",
+            const response = await fetch(`${API_URL}/${id}`, {
+                method: "PUT",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ completed })
+                body: JSON.stringify({ 
+                    completed: completed,
+                    title: document.querySelector(`.task-checkbox[data-id="${id}"]`).nextElementSibling.textContent
+                })
             });
+            
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            
+            // Actualizar UI
+            const taskText = document.querySelector(`.task-checkbox[data-id="${id}"]`).nextElementSibling;
+            if (taskText) {
+                taskText.classList.toggle("completed", completed);
+            }
         } catch (error) {
             console.error("Error updating task:", error);
             showError("Failed to update task");
+            // Revertir cambios
+            const checkbox = document.querySelector(`.task-checkbox[data-id="${id}"]`);
+            if (checkbox) {
+                checkbox.checked = !completed;
+                checkbox.nextElementSibling.classList.toggle("completed", !completed);
+            }
         }
     }
 

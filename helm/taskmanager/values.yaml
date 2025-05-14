@@ -21,9 +21,9 @@ mysql:
 # Backend configuration
 backend:
   image:
-    repository: jmendezpod/taskbackend
-    tag: 1.2.0
-    pullPolicy: IfNotPresent
+    repository: jmendezpod/backend
+    tag: latest
+    imagePullPolicy: Always
   service:
     port: 80
     targetPort: 8080

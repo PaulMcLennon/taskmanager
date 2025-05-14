@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: jmendezpod/backend:latest
+
+  frontend:
+    build: ./frontend
+    image: jmendezpod/frontend:latest
